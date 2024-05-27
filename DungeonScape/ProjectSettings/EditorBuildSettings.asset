@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/segunda_habitacion.unity
     guid: 25a51ab832362434790ae04520f039ae
+  - enabled: 1
+    path: Assets/Scenes/tercerahabitacion.unity
+    guid: 30fe2cc13077f914e90dc2a4c2746344
   m_configObjects: {}

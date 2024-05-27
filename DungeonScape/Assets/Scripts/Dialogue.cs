@@ -15,16 +15,15 @@ public class Dialogue : MonoBehaviour
 
     private bool isPlayerInRange;
     [SerializeField] private GameObject marquita;
-    [SerializeField] private GameObject DialoguePanel;
+    [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TMP_Text dialogueText;
     [SerializeField, TextArea(4, 6)] private string[] dialogueLines;
-    [SerializeField] private float textSpeed = 0.05f; // Velocidad del texto progresivo
-    [SerializeField] private float lineDelay = 1.5f; // Tiempo entre líneas
-    [SerializeField] private GameObject nextPopup; // Nuevo popup a mostrar
+    [SerializeField] private float textSpeed = 0.05f; // Speed of progressive text
+    [SerializeField] private float lineDelay = 1.5f; // Time between lines
+    [SerializeField] private GameObject nextPopup; // Next popup to display
 
     private int currentLineIndex = 0;
 
-    // Update is called once per frame
     void Update()
     {
         if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
@@ -35,15 +34,20 @@ public class Dialogue : MonoBehaviour
         switch (currentState)
         {
             case DialogueState.DisplayingDialogue:
-                // No se necesita hacer nada aquí, el diálogo se maneja en IEnumerator DisplayDialogue()
+                // Nothing needed here, dialogue is handled in IEnumerator DisplayDialogue()
                 break;
             case DialogueState.DisplayingNextPopup:
-                // Activar el nuevo popup y cambiar al estado inactivo
-                nextPopup.SetActive(true);
+                // Activate the new popup and change to the inactive state
+                if (nextPopup != null)
+                {
+                    nextPopup.SetActive(true);
+                    // Mark the item as obtained
+                    PlayerInventory.instance.ObtainItem("SpecialItem");
+                }
                 currentState = DialogueState.Inactive;
                 break;
             case DialogueState.Inactive:
-                // En este estado, el diálogo está inactivo y no se está mostrando ningún popup
+                // In this state, dialogue is inactive and no popup is displayed
                 break;
         }
     }
@@ -57,36 +61,41 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-   private void OnTriggerExit2D(Collider2D collision)
-{
-    if (collision.gameObject.CompareTag("Player"))
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        marquita.SetActive(false);
-        isPlayerInRange = false;
-        DialoguePanel.SetActive(false); // Cierra el panel cuando el jugador se va
-        StopAllCoroutines(); // Detiene cualquier corrutina que esté corriendo
-
-        // Verificar si nextPopup no es nulo antes de desactivarlo
-        if (nextPopup != null)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            nextPopup.SetActive(false);
+            marquita.SetActive(false);
+            isPlayerInRange = false;
+
+            // Verifica si dialoguePanel es nulo antes de intentar desactivarlo
+            if (dialoguePanel != null)
+            {
+                dialoguePanel.SetActive(false); // Close the panel when the player leaves
+            }
+
+            StopAllCoroutines(); // Stop any running coroutines
+
+            // Deactivate nextPopup if it is not null
+            if (nextPopup != null)
+            {
+                nextPopup.SetActive(false);
+            }
         }
     }
-}
-
 
     private void ToggleDialoguePanel()
     {
-        if (DialoguePanel.activeSelf)
+        if (dialoguePanel.activeSelf)
         {
-            DialoguePanel.SetActive(false);
+            dialoguePanel.SetActive(false);
             StopAllCoroutines();
             currentState = DialogueState.Inactive;
         }
         else
         {
-            DialoguePanel.SetActive(true);
-            currentLineIndex = 0; // Reinicia el índice de líneas cuando se abre el panel
+            dialoguePanel.SetActive(true);
+            currentLineIndex = 0; // Reset the line index when the panel opens
             StartCoroutine(DisplayDialogue());
             currentState = DialogueState.DisplayingDialogue;
         }
@@ -102,13 +111,13 @@ public class Dialogue : MonoBehaviour
                 dialogueText.text += letter;
                 yield return new WaitForSeconds(textSpeed);
             }
-            
-            // Espera antes de mostrar la siguiente línea
+
+            // Wait before showing the next line
             yield return new WaitForSeconds(lineDelay);
             currentLineIndex++;
         }
 
-        // Cuando se acaben las líneas de diálogo, cambiar el estado para mostrar el próximo popup
+        // When all dialogue lines are finished, change the state to display the next popup
         currentState = DialogueState.DisplayingNextPopup;
     }
 }
