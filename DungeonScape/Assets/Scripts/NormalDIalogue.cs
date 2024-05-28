@@ -2,13 +2,12 @@ using UnityEngine;
 using TMPro;
 using System.Collections;
 
-public class Dialogue : MonoBehaviour
+public class NormalDialogue : MonoBehaviour
 {
     public enum DialogueState
     {
         Inactive,
-        DisplayingDialogue,
-        DisplayingNextPopup
+        DisplayingDialogue
     }
 
     private DialogueState currentState = DialogueState.Inactive;
@@ -20,7 +19,6 @@ public class Dialogue : MonoBehaviour
     [SerializeField, TextArea(4, 6)] private string[] dialogueLines;
     [SerializeField] private float textSpeed = 0.05f; // Speed of progressive text
     [SerializeField] private float lineDelay = 1.5f; // Time between lines
-    [SerializeField] private GameObject nextPopup; // Next popup to display
     [SerializeField] private AudioClip typingSound; // Audio clip para el sonido de tipeo
     private AudioSource audioSource;
 
@@ -33,8 +31,6 @@ public class Dialogue : MonoBehaviour
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-        audioSource.loop = false; // Ensure the audio is not looping
-        audioSource.playOnAwake = false; // Ensure the audio does not play on awake
     }
 
     void Update()
@@ -47,20 +43,10 @@ public class Dialogue : MonoBehaviour
         switch (currentState)
         {
             case DialogueState.DisplayingDialogue:
-                // Nothing needed here, dialogue is handled in IEnumerator DisplayDialogue()
-                break;
-            case DialogueState.DisplayingNextPopup:
-                // Activate the new popup and change to the inactive state
-                if (nextPopup != null)
-                {
-                    nextPopup.SetActive(true);
-                    // Mark the item as obtained
-                    PlayerInventory.instance.ObtainItem("SpecialItem");
-                }
-                currentState = DialogueState.Inactive;
+                // Nothing needed here, dialogue is handled in IEnumerator DisplayDialogueCoroutine()
                 break;
             case DialogueState.Inactive:
-                // In this state, dialogue is inactive and no popup is displayed
+                // In this state, dialogue is inactive
                 break;
         }
     }
@@ -81,19 +67,12 @@ public class Dialogue : MonoBehaviour
             marquita.SetActive(false);
             isPlayerInRange = false;
 
-            // Verifica si dialoguePanel es nulo antes de intentar desactivarlo
             if (dialoguePanel != null)
             {
                 dialoguePanel.SetActive(false); // Close the panel when the player leaves
             }
 
             StopAllCoroutines(); // Stop any running coroutines
-
-            // Deactivate nextPopup if it is not null
-            if (nextPopup != null)
-            {
-                nextPopup.SetActive(false);
-            }
         }
     }
 
@@ -109,12 +88,12 @@ public class Dialogue : MonoBehaviour
         {
             dialoguePanel.SetActive(true);
             currentLineIndex = 0; // Reset the line index when the panel opens
-            StartCoroutine(DisplayDialogue());
+            StartCoroutine(DisplayDialogueCoroutine());
             currentState = DialogueState.DisplayingDialogue;
         }
     }
 
-    private IEnumerator DisplayDialogue()
+    private IEnumerator DisplayDialogueCoroutine()
     {
         while (currentLineIndex < dialogueLines.Length)
         {
@@ -122,7 +101,7 @@ public class Dialogue : MonoBehaviour
             foreach (char letter in dialogueLines[currentLineIndex].ToCharArray())
             {
                 dialogueText.text += letter;
-                PlayTypingSound2();
+                PlayTypingSound();
                 yield return new WaitForSeconds(textSpeed);
             }
 
@@ -131,24 +110,14 @@ public class Dialogue : MonoBehaviour
             currentLineIndex++;
         }
 
-        // When all dialogue lines are finished, change the state to display the next popup
-        currentState = DialogueState.DisplayingNextPopup;
-    }
-
-    private void PlayTypingSound2()
-    {
-        if (audioSource != null && typingSound != null)
-        {
-            audioSource.Stop();
-            audioSource.PlayOneShot(typingSound);
-        }
+        // When all dialogue lines are finished, return to inactive state
+        currentState = DialogueState.Inactive;
     }
 
     private void PlayTypingSound()
     {
         if (audioSource != null && typingSound != null)
         {
-            audioSource.Stop();
             audioSource.PlayOneShot(typingSound);
         }
     }

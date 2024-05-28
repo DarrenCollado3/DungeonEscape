@@ -25,11 +25,23 @@ public class DialogueWithRiddle : MonoBehaviour
     [SerializeField] private TMP_Text riddleQuestionText;
     [SerializeField] private TMP_InputField playerInput;
     [SerializeField] private GameObject rewardPopup;
+    [SerializeField] private string riddleQuestion; // Nueva variable para la pregunta del acertijo
     [SerializeField] private string correctAnswer;
     [SerializeField] private string correctAnswerResponse;
     [SerializeField] private string incorrectAnswerResponse;
+    [SerializeField] private AudioClip typingSound; // Audio clip para el sonido de tipeo
+    private AudioSource audioSource;
 
     private int currentLineIndex = 0;
+
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
 
     void Update()
     {
@@ -77,15 +89,14 @@ public class DialogueWithRiddle : MonoBehaviour
         }
     }
 
-
     private void StartDialogue()
     {
         dialoguePanel.SetActive(true);
-        StartCoroutine(DisplayDialogue());
+        StartCoroutine(DisplayDialogueCoroutine());
         currentState = DialogueState.DisplayingDialogue;
     }
 
-    private IEnumerator DisplayDialogue()
+    private IEnumerator DisplayDialogueCoroutine()
     {
         while (currentLineIndex < dialogueLines.Length)
         {
@@ -93,6 +104,7 @@ public class DialogueWithRiddle : MonoBehaviour
             foreach (char letter in dialogueLines[currentLineIndex].ToCharArray())
             {
                 dialogueText.text += letter;
+                PlayTypingSound();
                 yield return new WaitForSeconds(textSpeed);
             }
             // Wait before showing the next line
@@ -109,7 +121,7 @@ public class DialogueWithRiddle : MonoBehaviour
         currentState = DialogueState.DisplayingRiddle;
         dialoguePanel.SetActive(false);
         riddlePopup.SetActive(true);
-        riddleQuestionText.text = "¿Cuántas calaveras hay en la habitación?";
+        riddleQuestionText.text = riddleQuestion; // Usar la pregunta definida en el editor
         playerInput.gameObject.SetActive(true);
         playerInput.text = ""; // Limpiar el texto del InputField
         playerInput.ActivateInputField(); // Activar el InputField para que el jugador pueda ingresar su respuesta
@@ -139,10 +151,17 @@ public class DialogueWithRiddle : MonoBehaviour
         }
     }
 
-
     public void SubmitAnswer()
     {
         // Método que maneja el envío del InputField
         CheckAnswer();
+    }
+
+    private void PlayTypingSound()
+    {
+        if (audioSource != null && typingSound != null)
+        {
+            audioSource.PlayOneShot(typingSound);
+        }
     }
 }

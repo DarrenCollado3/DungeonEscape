@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1440817140808216055}
   - component: {fileID: 5081806696937205871}
   - component: {fileID: 5279213661684597072}
-  - component: {fileID: 2434947403231838301}
+  - component: {fileID: 8562043001382312962}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6328228802669308212}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -206,7 +206,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.39017674, y: 0.3328244}
   m_EdgeRadius: 0
---- !u!114 &2434947403231838301
+--- !u!114 &8562043001382312962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,19 +215,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 6328228802669308212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 300b159455d012b45af3a1de7da6e09e, type: 3}
+  m_Script: {fileID: 11500000, guid: bbb6085fa6840a84b80e8b08519cd924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   marquita: {fileID: 9058032786442392884}
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogueLines:
-  - Hola
-  - gato
-  - llave
+  - Hola denuevo
+  - ya que nos encontraremos mas de una vez
+  - por que no nos conocesmos mejor?
+  - en esta habitacion esta la fecha de mi cumpleanos
+  - descubrelo y podras seguir avanzando
   textSpeed: 0.05
   lineDelay: 1.5
-  nextPopup: {fileID: 0}
+  riddlePopup: {fileID: 0}
+  riddleQuestionText: {fileID: 0}
+  playerInput: {fileID: 0}
+  rewardPopup: {fileID: 0}
+  riddleQuestion: Cuando es mi cumpleanos?
+  correctAnswer: 08/18
+  correctAnswerResponse: good
+  incorrectAnswerResponse: Tas piruca
+  typingSound: {fileID: 8300000, guid: 8f902db7952f4524286044894f96353f, type: 3}
 --- !u!1 &9058032786442392884
 GameObject:
   m_ObjectHideFlags: 0
