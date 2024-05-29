@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 15304c84d4f203d4ab556aae1e3d9349
+  - enabled: 1
     path: Assets/Scenes/Primera_habitacion.unity
     guid: a84f83f92d37e12428d1c71b0cf3d822
   - enabled: 1
@@ -14,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/tercerahabitacion.unity
     guid: 30fe2cc13077f914e90dc2a4c2746344
+  - enabled: 1
+    path: Assets/Scenes/CuartA_habitacion.unity
+    guid: 493bd6185b9566142a92ec80b0e56570
+  - enabled: 1
+    path: Assets/Ultima_HABITACION(demo).unity
+    guid: b7051120fb71e0243bf6518f84470a17
   m_configObjects: {}

@@ -3154,7 +3154,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 4.334373
+  orthographic size: 4.39
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3222,7 +3222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pasarNivel: 0
-  indiceNivel: 1
+  indiceNivel: 3
 --- !u!61 &1051605106
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3668,6 +3668,10 @@ PrefabInstance:
       value: NPC
       objectReference: {fileID: 0}
     - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: lineDelay
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 488510447}
@@ -3688,9 +3692,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1031313947}
     - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: riddleQuestion
+      value: When is my birthday?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
       propertyPath: riddleQuestionText
       value: 
       objectReference: {fileID: 190259244}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: dialogueLines.Array.data[0]
+      value: Hi again!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: dialogueLines.Array.data[1]
+      value: Since we'll be meeting more than once.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: dialogueLines.Array.data[2]
+      value: Why don't we get to know each other better?
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: dialogueLines.Array.data[3]
+      value: In this room, there's the date of my birthday.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562043001382312962, guid: e3ec00aca9800914b93f852868e4355a, type: 3}
+      propertyPath: dialogueLines.Array.data[4]
+      value: Discover it, and you'll be able to keep moving forward.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4091,9 +4119,7 @@ MonoBehaviour:
   dialoguePanel: {fileID: 1031313947}
   dialogueText: {fileID: 678255478}
   dialogueLines:
-  - 'Muchos libros viejos
-
-'
+  - Many old books about how to make objects invisible.
   textSpeed: 0.05
   lineDelay: 1.5
   typingSound: {fileID: 8300000, guid: 36bfbfb696d6bc8439a87d5f92cb7138, type: 3}
@@ -4584,7 +4610,7 @@ MonoBehaviour:
   dialoguePanel: {fileID: 1031313947}
   dialogueText: {fileID: 678255478}
   dialogueLines:
-  - Una fuente normal
+  - A regular fountain.
   textSpeed: 0.05
   lineDelay: 1.5
   typingSound: {fileID: 8300000, guid: 36bfbfb696d6bc8439a87d5f92cb7138, type: 3}
@@ -5107,9 +5133,9 @@ MonoBehaviour:
   dialoguePanel: {fileID: 1031313947}
   dialogueText: {fileID: 678255478}
   dialogueLines:
-  - Una Calavera con una nota en el ojo
-  - '"Arriba de ti, oculto a los ojos encontraras la respuesta"'
-  - que?..
+  - A skull with a note in its eye
+  - '"Above you, hidden from sight, you''ll find the answer."'
+  - what?..
   textSpeed: 0.05
   lineDelay: 1.5
   typingSound: {fileID: 8300000, guid: 36bfbfb696d6bc8439a87d5f92cb7138, type: 3}
@@ -5383,7 +5409,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pasarNivel: 0
-  indiceNivel: 0
+  indiceNivel: 4
 --- !u!61 &2117443702
 BoxCollider2D:
   m_ObjectHideFlags: 0
